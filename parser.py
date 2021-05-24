@@ -9,8 +9,8 @@ import glob
 from pprint import pprint
 class Litels:
     def __init__(self):
-        data = ''
-        datafile = 'CC-MAIN-20150226074100-00147-ip-10-28-5-156.ec2.internal.warc.wet.gz'
+        self.data = {}
+        self.data["web_records"] = []
     def extract_info(self, file, pattern):
         text = '' 
         k = 0
@@ -21,13 +21,18 @@ class Litels:
                     if pattern.match(record.header['warc-target-uri']):
                         if (int(record.header['content-length']) > 1000):
                             text = record.payload.read()
-                            print(record.header['warc-target-uri'])
-                            print(int(record.header['content-length']))
+                            self.data['web_records'].append({'header': record.header['warc-target-uri'],
+                                                             'length': int(record.header['content-length']),
+                                                             'content' : text.decode() })
                             print(text.decode())
-                            text = record.payload.read()
-                            k += 1       
-                if k > 30:
+                            k += 1  
+                            print(k)       
+                if k > 5:
+                    with open('data.txt', 'w', encoding="utf-8") as outfile:
+                        outfile.write(self.data)
+                                #json.dump(self.data, outfile)   
                     break
+            
 
 
     # with open('text.txt', 'w', encoding="utf-8") as foil:

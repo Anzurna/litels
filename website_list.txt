@@ -1,0 +1,13 @@
+nytimes.com
+theguardian.com
+washingtonpost.com
+https://www.dailymail.co.uk/
+https://www.wsj.com/
+https://www.independent.co.uk/
+https://www.telegraph.co.uk/
+https://www.ft.com/
+https://www.mirror.co.uk/
+https://www.thetimes.co.uk/
+https://www.washingtontimes.com/
+https://www.nydailynews.com/
+https://www.usatoday.com/
