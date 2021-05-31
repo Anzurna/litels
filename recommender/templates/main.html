@@ -1,23 +1,29 @@
 {% extends "layout.html"%}
 {% block content %}
     {% for article in articles %}
+    <div class = "col-sm-6">
+    <article class="media content-section row-bottom-margin">
+        
+        <div class="well row-bottom-margin reduced_margin">
 
-    <article class="media content-section ">
-        <div class = "col-sm-6">
-        <div class="well row-bottom-margin">
-
-          <div class="article-metadata">
-            
+          <div class="article-metadata article-element reduced_margin">
+            <a class="mr-2" href="#">{{ article.publisher }}</a> on <small class="text-muted">{{ article.date }}</small>
           </div>
-          <a class="article-title" href="{{ article.url }}">{{ article.title }}</a>
+          
+          <a class="article-title reduced_margin" href="{{ article.url }}" 
+          data-id = "{{ article.id}}" target="_blank">{{ article.title }}</a>
         </div>
-    </div>
+    
       </article>
+    </div>
     <!-- <div class="col-sm-6">
         <div class="well"><a href="">{{ article.title }}</a></div>
     </div> -->
     {% endfor %}
+    <script src="{{ url_for('static', filename='app.js')}}"></script>
 {% endblock content %}
+
+
 
 <!-- <a class="mr-2" href="#">{{ post.author }}</a>
             <small class="text-muted">{{ post.date_posted }}</small> -->
