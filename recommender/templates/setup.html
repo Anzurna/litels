@@ -1,0 +1,36 @@
+
+{% extends "layout.html"%}
+{% block content %}
+<form method="post" class="col-sm-6">
+    {{ form.hidden_tag() }}
+    {% for element in form.example %}
+    <div>
+        <article class="media content-section row-bottom-margin">
+            
+            <div class="well row-bottom-margin reduced_margin">
+
+                <div class="article-metadata article-element reduced_margin">
+                  <a class="mr-2" href="#">{{ articles[loop.index].publisher }}</a> on <small class="text-muted">{{ articles[loop.index].date }}</small>
+                </div>
+
+                <a class="article-title reduced_margin" href="{{ articles[loop.index].url }}" 
+                data-id = "{{ articles[loop.index].id}}" target="_blank">{{ articles[loop.index].title }}</a>
+
+                <div class="checkbox_aligh_right">
+                    {{ element }}
+                </div>
+            </div>          
+        </article>
+
+    </div>
+    <!-- <fieldset class="form_group ">
+        <div class="col-sm-6">
+            
+        </div>       
+    </fieldset> -->
+    {% endfor %}
+    
+    <button type="submit" class="col-sm-3 reduced_margin red_button">Отправить</button>
+</form>
+
+{% endblock content %}

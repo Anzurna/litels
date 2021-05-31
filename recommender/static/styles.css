@@ -35,3 +35,11 @@
     border-radius: 0%;
     border-width: 0px;
 }
+
+.checkbox_aligh_right {
+    margin-left: 98%;
+}
+
+.red_button {
+    background-color: rgba(196, 18, 18, 0.712);
+}

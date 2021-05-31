@@ -3,7 +3,7 @@ from flask import request, jsonify
 
 from flask_wtf import CSRFProtect
 
-from forms import RegistrationForm,LoginForm
+from forms import RegistrationForm,LoginForm, SimpleForm
 
 import gensim
 from gensim.test.utils import get_tmpfile
@@ -25,7 +25,7 @@ db = client["database"]
 articles = db["articles"]
 
 
-def create_user_vector():
+def create_random_user_vector():
     user_vector = []
     for i in range(0, 300):
         user_vector.append(random.uniform(-0.5, 0.5))
@@ -45,6 +45,9 @@ def create_user_vector():
 similar_articles = []
 
 model = 0
+
+setup_session_max_step = 5
+setup_session_step = 0
 
 def is_article_meets_requirements(article):
     if article["url"] != "": #article["is_long"] and
@@ -75,7 +78,7 @@ def get_articles(doc_vector, doc_range=10, min_amount=5):
 @app.route("/")
 @app.route("/recommendations")
 def main():
-    doc_vector = create_user_vector()
+    doc_vector = create_random_user_vector()
     return render_template('main.html', articles=get_articles(doc_vector))
 
 @app.route("/redirect", methods=['POST'])
@@ -104,12 +107,23 @@ def login():
     return render_template("login.html", title="Login", form=form)
 
 @app.route("/setup", methods=["GET", "POST"])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        flash(f"{form.email.data} logged in succesfully", "success")
-        return redirect(url_for("main"))
-    return render_template("login.html", title="Login", form=form)
+def setup():
+    global setup_session_step, setup_session_max_step
+    if setup_session_step < setup_session_max_step:
+        form = SimpleForm()
+        doc_vector = create_random_user_vector()
+        articles = get_articles(doc_vector)
+        if form.validate_on_submit() and form.example.data:
+            print(form.example.data)
+            setup_session_step += 1
+            if setup_session_step == setup_session_max_step:
+                return redirect(url_for("main"))
+            else:
+                return redirect(url_for("setup"))
+        else:
+            pass
+            # return redirect(url_for("setup"))
+    return render_template("setup.html", title="Setup", form=form, articles=articles)
 
 
 
